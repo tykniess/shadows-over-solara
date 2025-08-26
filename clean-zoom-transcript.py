@@ -1,6 +1,4 @@
 from sys import argv
-input_filename = "GMT20250726-234400_Recording.transcript.txt"
-output_filename = "session 8.txt"
 
 def read_filtered_file(file_path):
     with open(file_path, 'r') as file:
@@ -8,14 +6,19 @@ def read_filtered_file(file_path):
         for line in file.readlines():
             # Strip whitespace from the line to check if it's blank
             stripped_line = line.strip()
-            if len(stripped_line) >0 and not stripped_line[0].isdigit():
+            if len(stripped_line) > 0 and not stripped_line[0].isdigit():
                 cleaned_lines.append(stripped_line)
     return cleaned_lines
 
-# Example usage:
-# read_filtered_file('your_file.txt')
-
-
-with open(output_filename,'w+') as file:
-    for line in read_filtered_file(input_filename):
-        file.write(line+'\n')
+if __name__ == "__main__":
+    if len(argv) < 3:
+        print("Usage: python clean-zoom-transcript.py input_filename session_number")
+        exit(1)
+    
+    input_filename = argv[1]
+    session_number = argv[2]
+    output_filename = f"session {session_number}.txt"
+    
+    with open(output_filename, 'w+') as file:
+        for line in read_filtered_file(input_filename):
+            file.write(line + '\n')
